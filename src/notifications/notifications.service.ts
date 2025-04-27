@@ -28,10 +28,7 @@ export class NotificationsService {
     });
   }
 
-  async update(
-    id: number,
-    data: Prisma.NotificationUpdateInput,
-  ): Promise<Notification> {
+  async update(id: number, data: Prisma.NotificationUpdateInput): Promise<Notification> {
     return this.prisma.notification.update({
       where: { notification_id: id },
       data,

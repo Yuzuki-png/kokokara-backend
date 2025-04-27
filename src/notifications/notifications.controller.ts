@@ -1,13 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  ParseIntPipe,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { NotificationsService } from './notifications.service';
 import { Prisma } from '@prisma/client';
 
@@ -38,7 +29,7 @@ export class NotificationsController {
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateNotificationDto: Prisma.NotificationUpdateInput,
+    @Body() updateNotificationDto: Prisma.NotificationUpdateInput
   ) {
     return this.notificationsService.update(id, updateNotificationDto);
   }

@@ -6,9 +6,7 @@ import { PositiveJournal, Prisma } from '@prisma/client';
 export class PositiveJournalsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(
-    data: Prisma.PositiveJournalCreateInput,
-  ): Promise<PositiveJournal> {
+  async create(data: Prisma.PositiveJournalCreateInput): Promise<PositiveJournal> {
     return this.prisma.positiveJournal.create({
       data,
     });
@@ -39,10 +37,7 @@ export class PositiveJournalsService {
     });
   }
 
-  async update(
-    id: number,
-    data: Prisma.PositiveJournalUpdateInput,
-  ): Promise<PositiveJournal> {
+  async update(id: number, data: Prisma.PositiveJournalUpdateInput): Promise<PositiveJournal> {
     return this.prisma.positiveJournal.update({
       where: { journal_id: id },
       data,

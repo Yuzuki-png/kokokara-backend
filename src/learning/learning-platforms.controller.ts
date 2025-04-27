@@ -1,22 +1,11 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  ParseIntPipe,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { LearningPlatformsService } from './learning-platforms.service';
 import { CreateLearningPlatformDto } from './dto/create-learning-platform.dto';
 import { Prisma } from '@prisma/client';
 
 @Controller('learning-platforms')
 export class LearningPlatformsController {
-  constructor(
-    private readonly learningPlatformsService: LearningPlatformsService,
-  ) {}
+  constructor(private readonly learningPlatformsService: LearningPlatformsService) {}
 
   @Post()
   create(@Body() createLearningPlatformDto: CreateLearningPlatformDto) {
@@ -36,7 +25,7 @@ export class LearningPlatformsController {
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateLearningPlatformDto: Prisma.LearningPlatformUpdateInput,
+    @Body() updateLearningPlatformDto: Prisma.LearningPlatformUpdateInput
   ) {
     return this.learningPlatformsService.update(id, updateLearningPlatformDto);
   }

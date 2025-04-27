@@ -8,8 +8,7 @@ export class CreatePositiveJournalDto {
   user_id: number;
 
   @ApiProperty({
-    example:
-      '今日は学校に行くことができました。少しずつ前進していることを実感しています。',
+    example: '今日は学校に行くことができました。少しずつ前進していることを実感しています。',
     description: 'ジャーナルの内容',
   })
   content: string;

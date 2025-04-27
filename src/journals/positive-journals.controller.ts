@@ -1,32 +1,15 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  ParseIntPipe,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { PositiveJournalsService } from './positive-journals.service';
 import { CreatePositiveJournalDto } from './dto/create-positive-journal.dto';
 import { PositiveJournalResponseDto } from './dto/positive-journal-response.dto';
 import { Prisma } from '@prisma/client';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiParam,
-  ApiBearerAuth,
-} from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiTags('journals')
 @ApiBearerAuth()
 @Controller('positive-journals')
 export class PositiveJournalsController {
-  constructor(
-    private readonly positiveJournalsService: PositiveJournalsService,
-  ) {}
+  constructor(private readonly positiveJournalsService: PositiveJournalsService) {}
 
   @Post()
   @ApiOperation({ summary: 'ポジティブジャーナルを作成' })
@@ -106,7 +89,7 @@ export class PositiveJournalsController {
   @ApiResponse({ status: 404, description: 'ジャーナルが見つかりません' })
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updatePositiveJournalDto: Prisma.PositiveJournalUpdateInput,
+    @Body() updatePositiveJournalDto: Prisma.PositiveJournalUpdateInput
   ) {
     return this.positiveJournalsService.update(id, updatePositiveJournalDto);
   }

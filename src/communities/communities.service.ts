@@ -22,10 +22,7 @@ export class CommunitiesService {
     });
   }
 
-  async update(
-    id: number,
-    data: Prisma.CommunityUpdateInput,
-  ): Promise<Community> {
+  async update(id: number, data: Prisma.CommunityUpdateInput): Promise<Community> {
     return this.prisma.community.update({
       where: { community_id: id },
       data,

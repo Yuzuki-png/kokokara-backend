@@ -1,10 +1,4 @@
-import {
-  IsNotEmpty,
-  IsString,
-  IsEnum,
-  IsOptional,
-  IsUrl,
-} from 'class-validator';
+import { IsNotEmpty, IsString, IsEnum, IsOptional, IsUrl } from 'class-validator';
 import { RESOURCES_type_enum } from '@prisma/client';
 
 export class CreateResourceDto {

@@ -28,10 +28,7 @@ export class ResourcesService {
     });
   }
 
-  async update(
-    id: number,
-    data: Prisma.ResourceUpdateInput,
-  ): Promise<Resource> {
+  async update(id: number, data: Prisma.ResourceUpdateInput): Promise<Resource> {
     return this.prisma.resource.update({
       where: { resource_id: id },
       data,

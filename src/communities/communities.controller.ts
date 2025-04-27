@@ -1,24 +1,9 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  ParseIntPipe,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { CommunitiesService } from './communities.service';
 import { Prisma } from '@prisma/client';
 import { CreateCommunityDto } from './dto/create-community.dto';
 import { CommunityResponseDto } from './dto/community-response.dto';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiParam,
-  ApiBearerAuth,
-} from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiTags('communities')
 @ApiBearerAuth()
@@ -75,7 +60,7 @@ export class CommunitiesController {
   @ApiResponse({ status: 404, description: 'コミュニティが見つかりません' })
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateCommunityDto: Prisma.CommunityUpdateInput,
+    @Body() updateCommunityDto: Prisma.CommunityUpdateInput
   ) {
     return this.communitiesService.update(id, updateCommunityDto);
   }

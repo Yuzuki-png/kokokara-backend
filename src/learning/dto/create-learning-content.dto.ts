@@ -1,10 +1,4 @@
-import {
-  IsNotEmpty,
-  IsString,
-  IsInt,
-  IsUrl,
-  IsOptional,
-} from 'class-validator';
+import { IsNotEmpty, IsString, IsInt, IsUrl, IsOptional } from 'class-validator';
 
 export class CreateLearningContentDto {
   @IsInt()

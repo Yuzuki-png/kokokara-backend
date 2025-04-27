@@ -6,9 +6,7 @@ import { LearningPlatform, Prisma } from '@prisma/client';
 export class LearningPlatformsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(
-    data: Prisma.LearningPlatformCreateInput,
-  ): Promise<LearningPlatform> {
+  async create(data: Prisma.LearningPlatformCreateInput): Promise<LearningPlatform> {
     return this.prisma.learningPlatform.create({
       data,
     });
@@ -24,10 +22,7 @@ export class LearningPlatformsService {
     });
   }
 
-  async update(
-    id: number,
-    data: Prisma.LearningPlatformUpdateInput,
-  ): Promise<LearningPlatform> {
+  async update(id: number, data: Prisma.LearningPlatformUpdateInput): Promise<LearningPlatform> {
     return this.prisma.learningPlatform.update({
       where: { platform_id: id },
       data,

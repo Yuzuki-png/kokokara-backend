@@ -1,13 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  ParseIntPipe,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { ResourcesService } from './resources.service';
 import { CreateResourceDto } from './dto/create-resource.dto';
 import { Prisma, RESOURCES_type_enum } from '@prisma/client';
@@ -39,7 +30,7 @@ export class ResourcesController {
   @Patch(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateResourceDto: Prisma.ResourceUpdateInput,
+    @Body() updateResourceDto: Prisma.ResourceUpdateInput
   ) {
     return this.resourcesService.update(id, updateResourceDto);
   }

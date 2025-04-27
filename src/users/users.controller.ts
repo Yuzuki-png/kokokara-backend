@@ -1,24 +1,9 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  ParseIntPipe,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Prisma } from '@prisma/client';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserResponseDto } from './dto/user-response.dto';
-import {
-  ApiTags,
-  ApiOperation,
-  ApiResponse,
-  ApiParam,
-  ApiBearerAuth,
-} from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse, ApiParam, ApiBearerAuth } from '@nestjs/swagger';
 
 @ApiTags('users')
 @ApiBearerAuth()
@@ -65,10 +50,7 @@ export class UsersController {
   @ApiParam({ name: 'id', type: 'number', description: 'ユーザーID' })
   @ApiResponse({ status: 200, description: '成功', type: UserResponseDto })
   @ApiResponse({ status: 404, description: 'ユーザーが見つかりません' })
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateUserDto: Prisma.UserUpdateInput,
-  ) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: Prisma.UserUpdateInput) {
     return this.usersService.update(id, updateUserDto);
   }
 
