@@ -18,7 +18,6 @@ WORKDIR /app
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-COPY .env ./
 
 EXPOSE 3000
 CMD ["node", "dist/main.js"]
