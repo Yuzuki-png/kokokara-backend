@@ -1,0 +1,189 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum COMMUNITY_MEMBERSHIPS_role_enum {
+  member
+  moderator
+  admin
+}
+
+enum RESOURCES_type_enum {
+  support_group
+  counselor
+  online_school
+  free_school
+  other
+}
+
+enum NOTIFICATIONS_type_enum {
+  journal_reminder
+  community_update
+  learning_reminder
+  system
+}
+
+model User {
+  user_id        Int              @id @default(autoincrement())
+  email          String           @unique
+  password_hash  String
+  email_verified Boolean          @default(false)
+  parent_consent Boolean?
+  last_login     DateTime?
+  created_at     DateTime         @default(now())
+
+  profile        UserProfile?
+  learningProgresses LearningProgress[]
+  createdCommunities Community[] @relation("CreatedCommunities")
+  communityMemberships CommunityMembership[]
+  communityPosts CommunityPost[]
+  resourceBookmarks ResourceBookmark[]
+  positiveJournals PositiveJournal[]
+  notifications  Notification[]
+}
+
+model UserProfile {
+  user_profile_id Int     @id @default(autoincrement())
+  user_id         Int     @unique
+  nickname        String?
+  interests       String?
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
+
+  user            User    @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+}
+
+model LearningPlatform {
+  platform_id    Int     @id @default(autoincrement())
+  platform_name  String
+  platform_url   String
+
+  learningContents LearningContent[]
+}
+
+model LearningContent {
+  content_id     Int     @id @default(autoincrement())
+  platform_id    Int
+  title          String
+  description    String?
+  content_url    String
+  grade_level    String?
+  subject        String?
+  difficulty_level Int?
+  created_at     DateTime @default(now())
+
+  platform       LearningPlatform @relation(fields: [platform_id], references: [platform_id], onDelete: Cascade)
+  progresses     LearningProgress[]
+}
+
+model LearningProgress {
+  progress_id        Int      @id @default(autoincrement())
+  user_id            Int
+  content_id         Int
+  completion_percentage Float  @default(0.0)
+  last_accessed      DateTime?
+  time_spent_minutes Int     @default(0)
+  notes              String?
+  created_at         DateTime @default(now())
+  updated_at         DateTime @updatedAt
+
+  user               User     @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  content            LearningContent @relation(fields: [content_id], references: [content_id], onDelete: Cascade)
+
+  @@unique([user_id, content_id])
+}
+
+model Community {
+  community_id       Int      @id @default(autoincrement())
+  name               String
+  description        String?
+  category           String?
+  is_private         Boolean  @default(false)
+  created_by_user_id Int
+  created_at         DateTime @default(now())
+
+  createdBy          User     @relation("CreatedCommunities", fields: [created_by_user_id], references: [user_id], onDelete: Cascade)
+  memberships        CommunityMembership[]
+  posts              CommunityPost[]
+}
+
+model CommunityMembership {
+  membership_id  Int     @id @default(autoincrement())
+  user_id        Int
+  community_id   Int
+  role           COMMUNITY_MEMBERSHIPS_role_enum @default(member)
+  joined_at      DateTime @default(now())
+
+  user           User     @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  community      Community @relation(fields: [community_id], references: [community_id], onDelete: Cascade)
+
+  @@unique([user_id, community_id])
+}
+
+model CommunityPost {
+  post_id        Int      @id @default(autoincrement())
+  community_id   Int
+  user_id        Int
+  content        String
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+  is_anonymous   Boolean  @default(false)
+
+  community      Community @relation(fields: [community_id], references: [community_id], onDelete: Cascade)
+  user           User      @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+}
+
+model Resource {
+  resource_id    Int      @id @default(autoincrement())
+  name           String
+  type           RESOURCES_type_enum
+  description    String?
+  website_url    String?
+  location       String?
+  contact_info   String?
+  categories     String?
+  created_at     DateTime @default(now())
+
+  bookmarks      ResourceBookmark[]
+}
+
+model ResourceBookmark {
+  bookmark_id    Int      @id @default(autoincrement())
+  user_id        Int
+  resource_id    Int
+  notes          String?
+  created_at     DateTime @default(now())
+
+  user           User     @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+  resource       Resource @relation(fields: [resource_id], references: [resource_id], onDelete: Cascade)
+
+  @@unique([user_id, resource_id])
+}
+
+model PositiveJournal {
+  journal_id     Int      @id @default(autoincrement())
+  user_id        Int
+  content        String
+  is_favorite    Boolean  @default(false)
+  entry_date     DateTime
+  created_at     DateTime @default(now())
+
+  user           User     @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+}
+
+model Notification {
+  notification_id Int     @id @default(autoincrement())
+  user_id         Int
+  type            NOTIFICATIONS_type_enum
+  content         String
+  is_read         Boolean @default(false)
+  scheduled_at    DateTime?
+  created_at      DateTime @default(now())
+
+  user            User    @relation(fields: [user_id], references: [user_id], onDelete: Cascade)
+}
